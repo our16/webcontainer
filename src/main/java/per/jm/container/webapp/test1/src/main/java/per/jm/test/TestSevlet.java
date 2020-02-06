@@ -9,7 +9,7 @@ public class TestSevlet extends Servlet {
     public void doGet(MyRequest request, MyResponse response) throws Exception {
        // System.out.println(request.getUrl());
        // System.out.println(request.getMethod());
-        System.out.println(request.getParam("key1"));
+        System.out.println("key:"+request.getParam("key1"));
         request.getSessionVO();
         response.write("successed");
     }

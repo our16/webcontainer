@@ -1,5 +1,6 @@
 package per.jm.container.starter;
 
+import per.jm.container.filter.FilterChain;
 import per.jm.container.http.MyRequest;
 import per.jm.container.http.MyResponse;
 import per.jm.container.servlet.Servlet;
@@ -31,7 +32,7 @@ public class MuilConnection implements Runnable{
                myResponse.setStatus(404);
                myResponse.write("");
            } else {
-               servlet.service(myRequest, myResponse);
+               new FilterChain(servlet,myRequest,myResponse);
            }
        }catch (Exception e){
            myResponse.setStatus(500);
