@@ -1,23 +1,25 @@
 package per.jm.container.http;
 
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
+import java.util.*;
 
 public class MyResponse {
 
     private PrintWriter pw;
-
+    private SelectionKey selectionKey;
+    private String ioType = "io";
     private int status = 200;
     private String titile = "ok";
     private String httpv = "http/1.1";
     private String rn = "\r\n";
     private String blank = ": ";
-    private Map<String,String> headers = new HashMap<String, String>();
-    private String header = "http/1.1 " + status + " "+titile+"\r\n";
+    private Map<String, String> headers = new HashMap<String, String>();
+    private String header = "http/1.1 " + status + " " + titile + "\r\n";
     private String error = "<html>\n" +
             "<head><title>502 Bad Gateway</title></head>\n" +
             "<body bgcolor=\"white\">\n" +
@@ -116,17 +118,27 @@ public class MyResponse {
             "</body>\n" +
             "</html>";
 
+    private void init() {
+        headers.put("Content-Type:", "text/html");
+        headers.put("Server", "MengGi");
+        headers.put("Accept", "text/html,application/json;q=0.9,image/webp,image/apng,*/*;");
+        headers.put("Accept-Encoding", "gzip, deflate, br");
+        headers.put("Accept-Language", "zh-CN,zh;q=0.9");
+        headers.put("Cache-Control", "max-age=0");
+        headers.put("Access-Control-Allow-Origin", "*");
+        headers.put("Keep-Alive", "timeout=5, max=1000");
+        headers.put("Connection", "Keep-Alive");
+    }
+
     public MyResponse(OutputStream os) {
         pw = new PrintWriter(os);
-        headers.put("Content-Type:","text/html");
-        headers.put("Server","MengGi");
-        headers.put("Accept","text/html,application/json;q=0.9,image/webp,image/apng,*/*;");
-        headers.put("Accept-Encoding","gzip, deflate, br");
-        headers.put("Accept-Language","zh-CN,zh;q=0.9");
-        headers.put("Cache-Control","max-age=0");
-        headers.put("Access-Control-Allow-Origin","*");
-        headers.put("Keep-Alive","timeout=5, max=1000");
-        headers.put("Connection","Keep-Alive");
+        init();
+    }
+
+    public MyResponse(SelectionKey key) {
+        this.selectionKey = key;
+        init();
+        this.ioType = "nio";
     }
 
     /**
@@ -134,32 +146,44 @@ public class MyResponse {
      */
     public void write(String outString) throws Exception {
         Set entry = headers.entrySet();
-        if(status == 500){
+        if (status == 500) {
             outString = error;
             titile = "Internal Server Error";
 
-        }else if(status == 404){
+        } else if (status == 404) {
             outString = notFound;
             titile = "Not Found";
-
         }
-        header = httpv+" "+status+" "+titile+rn;
+        header = httpv + " " + status + " " + titile + rn;
         String content = header;
-        Iterator iterator =entry.iterator();
-        while(iterator.hasNext()){
+        Iterator iterator = entry.iterator();
+        while (iterator.hasNext()) {
             String[] kv = iterator.next().toString().split("=");
-            content += kv[0]+this.blank+kv[1]+this.rn;
+            content += kv[0] + this.blank + kv[1] + this.rn;
         }
         content += rn;
         content += outString;
-        pw.write(content);
-        pw.close();
+        if ("io".equalsIgnoreCase(ioType)) {
+            pw.write(content);
+            pw.close();
+        } else if ("nio".equalsIgnoreCase(ioType)) {
+            SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+            ByteBuffer byteBuffer = (ByteBuffer) selectionKey.attachment();
+            int length = byteBuffer.capacity();
+            int index = 0;
+            byte[] bytes = content.getBytes();
+            byteBuffer = byteBuffer.put(content.getBytes());
+            byteBuffer.flip();
+            socketChannel.write(byteBuffer);
+            byteBuffer.clear();
+        }
     }
 
     public void setStatus(int status) {
         this.status = status;
     }
-    public void setHeader(String key,String value){
-        this.headers.put(key,value);
+
+    public void setHeader(String key, String value) {
+        this.headers.put(key, value);
     }
 }

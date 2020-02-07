@@ -8,6 +8,8 @@ import per.jm.container.starter.Starter;
 import per.jm.container.util.MyAssert;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.util.*;
 
 /**
@@ -52,6 +54,35 @@ public class MyRequest {
                     first = true;
                 }
                 if (len < 1024) {
+                    break;
+                }
+            }
+            //解析请求体
+            this.body = content.substring(bodyIndex);
+            //this.doBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MyRequest(SocketChannel socketChannel,ByteBuffer byteBuffer){
+        try {
+            //HTTP协议就是一串字符串
+            String content = "";
+            byte[] buff = new byte[byteBuffer.remaining()];
+            boolean first = false;
+            while ((len = socketChannel.read(byteBuffer)) != -1){
+                buff = byteBuffer.array();
+                content += new String(buff, 0, len);
+                if (!first) {
+                    this.bufGet(buff);
+                    //解析第一行
+                    this.doLine(buff);
+                    //解析请求头
+                    this.doHeader(buff);
+                    first = true;
+                }
+                if(len < 1024){
                     break;
                 }
             }

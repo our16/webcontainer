@@ -6,15 +6,21 @@ import per.jm.container.servlet.Servlet;
 import per.jm.container.scan.MyProperties;
 import per.jm.container.session.Session;
 
+import java.io.IOException;
 import java.net.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class Starter {
 
     private String ipBind = "127.0.0.1";
     private int port = 8080;
-    private ServerSocket serverSocket;
     public static boolean isStart = true;
     private static HashMap<String, Servlet> servlets = new HashMap<String, Servlet>();
     private static Session session;
@@ -41,7 +47,7 @@ public class Starter {
 
     private void start() throws Exception {
         InetSocketAddress inetAddress = new InetSocketAddress(ipBind, port);
-        serverSocket = new ServerSocket();
+        ServerSocket serverSocket = new ServerSocket();
         serverSocket.bind(inetAddress);
         System.out.println("server is running!");
         while (isStart) {
@@ -50,6 +56,16 @@ public class Starter {
             Thread thread = new Thread(muilConnection);
             thread.start();
         }
+    }
+    private void nioStart() throws IOException {
+        InetSocketAddress inetAddress = new InetSocketAddress(ipBind, port);
+        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel.socket().bind(inetAddress);
+        //飞阻塞模式
+        serverSocketChannel.configureBlocking(false);
+        NioConnection nioConnection = new NioConnection(serverSocketChannel);
+        Thread thread = new Thread(nioConnection);
+        thread.start();
     }
     public static Session getSession(){
         if(null == session ) {
@@ -67,7 +83,7 @@ public class Starter {
 
     public static void main(String[] args) {
         try {
-            new Starter().start();
+            new Starter().nioStart();
         } catch (Exception e) {
             e.printStackTrace();
         }
