@@ -6,16 +6,15 @@ import per.jm.container.servlet.Servlet;
 import per.jm.container.scan.MyProperties;
 import per.jm.container.session.Session;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.*;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Starter {
 
@@ -83,7 +82,24 @@ public class Starter {
 
     public static void main(String[] args) {
         try {
-            new Starter().nioStart();
+            InputStream in = new FileInputStream(System.getProperty("user.dir")+"/src/main/java/per/jm/container/config/server.properties");
+            //2、新建一个Properties对象
+            Properties pro = new Properties();
+            pro.load(in);    //properties对象封装配置文件的输入流，现在文件里面的信息都已被封装成String
+            Starter starter = new Starter();
+            Set set = pro.entrySet();
+            Iterator iterator = set.iterator();
+            while(iterator.hasNext()) {
+                String[] kv = iterator.next().toString().split("=");
+                if(kv[0].equals("server.model")){
+                    if(kv[1].equals("io")){
+                        starter.start();
+                    }else{
+                        starter.nioStart();
+                    }
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

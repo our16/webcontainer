@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d564baa-a146-4f5e-ab43-97ce010ba1c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/per/jm/container/starter/NioConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/per/jm/container/config/server.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/per/jm/container/http/MyRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/per/jm/container/http/MyRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/per/jm/container/http/MyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/per/jm/container/http/MyResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/per/jm/container/starter/Starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/per/jm/container/starter/Starter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/per/jm/container/starter/Starter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/per/jm/container/starter/Starter.class" afterDir="false" />
     </list>
@@ -133,7 +130,7 @@
       <workItem from="1580880969248" duration="3311000" />
       <workItem from="1580884429006" duration="31768000" />
       <workItem from="1580971525727" duration="6405000" />
-      <workItem from="1581066322384" duration="14564000" />
+      <workItem from="1581066322384" duration="14970000" />
     </task>
     <servers />
   </component>
@@ -153,22 +150,22 @@
       <screen x="0" y="0" width="1440" height="857" />
     </state>
     <state x="254" y="350" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1440.857@0.0.1440.857" timestamp="1580898404690" />
-    <state width="1394" height="76" key="GridCell.Tab.0.bottom" timestamp="1581083841534">
+    <state width="1394" height="266" key="GridCell.Tab.0.bottom" timestamp="1581084300390">
       <screen x="0" y="0" width="1440" height="857" />
     </state>
-    <state width="1394" height="76" key="GridCell.Tab.0.bottom/0.0.1440.857@0.0.1440.857" timestamp="1581083841534" />
-    <state width="1394" height="76" key="GridCell.Tab.0.center" timestamp="1581083841531">
+    <state width="1394" height="266" key="GridCell.Tab.0.bottom/0.0.1440.857@0.0.1440.857" timestamp="1581084300390" />
+    <state width="1394" height="266" key="GridCell.Tab.0.center" timestamp="1581084300389">
       <screen x="0" y="0" width="1440" height="857" />
     </state>
-    <state width="1394" height="76" key="GridCell.Tab.0.center/0.0.1440.857@0.0.1440.857" timestamp="1581083841531" />
-    <state width="1394" height="76" key="GridCell.Tab.0.left" timestamp="1581083841530">
+    <state width="1394" height="266" key="GridCell.Tab.0.center/0.0.1440.857@0.0.1440.857" timestamp="1581084300389" />
+    <state width="1394" height="266" key="GridCell.Tab.0.left" timestamp="1581084300389">
       <screen x="0" y="0" width="1440" height="857" />
     </state>
-    <state width="1394" height="76" key="GridCell.Tab.0.left/0.0.1440.857@0.0.1440.857" timestamp="1581083841530" />
-    <state width="1394" height="76" key="GridCell.Tab.0.right" timestamp="1581083841533">
+    <state width="1394" height="266" key="GridCell.Tab.0.left/0.0.1440.857@0.0.1440.857" timestamp="1581084300389" />
+    <state width="1394" height="266" key="GridCell.Tab.0.right" timestamp="1581084300390">
       <screen x="0" y="0" width="1440" height="857" />
     </state>
-    <state width="1394" height="76" key="GridCell.Tab.0.right/0.0.1440.857@0.0.1440.857" timestamp="1581083841533" />
+    <state width="1394" height="266" key="GridCell.Tab.0.right/0.0.1440.857@0.0.1440.857" timestamp="1581084300390" />
     <state width="1394" height="23" key="GridCell.Tab.1.bottom" timestamp="1581072264410">
       <screen x="0" y="0" width="1440" height="857" />
     </state>
